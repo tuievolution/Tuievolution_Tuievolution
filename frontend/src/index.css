@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #FFDCF3; /* Light Mode: Tam pembe */
+    --bg-secondary: #FFB2F5;
+    --text-primary: #0D2D31;
+    --accent: #4F348D;
+  }
+
+  .dark {
+    --bg-primary: #1A0B2E; /* Dark Mode: Tam koyu mor */
+    --bg-secondary: #2D1B4E;
+    --text-primary: #FFE6F7;
+    --accent: #D6BCFA;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    /* Sayfa kaydırıldığında pürüzsüz geçiş için */
+    @apply transition-colors duration-500; 
+  }
+}
+
+@layer components {
+  /* Cam Efekti - Sadece Navbar şeffafken veya özel alanlarda kullanmak için */
+  .glass {
+    @apply backdrop-blur-md border shadow-lg transition-colors duration-300;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .dark .glass {
+    background-color: rgba(45, 27, 78, 0.6);
+    border-color: rgba(214, 188, 250, 0.1);
+  }
+
+  /* Kart Stili */
+  .card {
+     @apply rounded-2xl p-6 shadow-md transition-all duration-300;
+     background-color: var(--bg-secondary);
+     color: var(--text-primary);
+  }
+}
+
+@layer utilities {
+  @keyframes spin-cw {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes spin-ccw {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  /* Temel Kart Sınıfı */
+  .glow-card-base {
+    position: relative;
+    z-index: 0;
+    overflow: hidden; /* Dışa taşan ışığı kesmek isterseniz */
+    border-radius: 1rem;
+    padding: 3px; /* Işık çerçevesinin kalınlığı */
+  }
+
+  /* Işık Katmanları */
+  .glow-card-base::before,
+  .glow-card-base::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    z-index: -1; /* İçeriğin altında */
+    opacity: 0; /* Varsayılan kapalı */
+    transition: opacity 0.5s ease;
+  }
+
+  /* 1. Işık (Saat Yönü) */
+  .glow-card-base::before {
+    background: conic-gradient(transparent, transparent, transparent, var(--accent));
+    animation: spin-cw 4s linear infinite;
+  }
+
+  /* 2. Işık (Ters Yön) */
+  .glow-card-base::after {
+    background: conic-gradient(transparent, transparent, transparent, #00c6ff);
+    animation: spin-ccw 4s linear infinite;
+  }
+
+  /* Aktif veya Hover Durumunda Işığı Aç */
+  .glow-card-base.active::before,
+  .glow-card-base.active::after,
+  .glow-card-base:hover::before,
+  .glow-card-base:hover::after {
+    opacity: 1;
+  }
+  
+  /* İkinci ışığın opaklığını biraz kıs */
+  .glow-card-base.active::after,
+  .glow-card-base:hover::after {
+    opacity: 0.6;
+  }
+
+  /* İçerik Sarmalayıcı (Arkaplan rengini bu verir) */
+  .glow-content-wrapper {
+    background-color: var(--bg-secondary);
+    border-radius: 0.8rem; /* Dış çerçeveden biraz küçük */
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+}
