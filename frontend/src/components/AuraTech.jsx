@@ -90,7 +90,7 @@ const AuraTech = () => {
 
         /* --- EVRİM ALUÇ İÇİN DETAY --- */
         case 'team_evrim':
-          botResponse.text = "Evrim Aluç; Backend mimarisi, Veritabanı optimizasyonu ve Yapay Zeka entegrasyonları konusunda uzman liderimizdir. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
+          botResponse.text = "Evrim Aluç; Full Stack mühendistir. Frontend ve Tasarımı sever. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
           botResponse.options = [
             { label: "Evet, Evrim'in sayfasına git", value: "navigate_evrim" },
             { label: "Diğer ekip üyesini gör", value: "team" }
@@ -99,7 +99,7 @@ const AuraTech = () => {
 
         /* --- TUANA AKYILDIZ İÇİN DETAY --- */
         case 'team_tuana':
-          botResponse.text = "Tuana Akyıldız; Java tabanlı Backend sistemleri, modern Frontend arayüzleri ve kullanıcı deneyimi (UX) tasarımı konularında uzman liderimizdir. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
+          botResponse.text = "Tuana Akyıldız; Full Stack Mühendis. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
           botResponse.options = [
             { label: "Evet, Tuana'nın sayfasına git", value: "navigate_tuana" },
             { label: "Diğer ekip üyesini gör", value: "team" }

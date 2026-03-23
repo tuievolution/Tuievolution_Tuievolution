@@ -29,7 +29,7 @@ const Home = () => {
       <Link to="/about/evrim" className="glass p-8 rounded-[2.5rem] hover:scale-[1.02] transition-transform group cursor-pointer">
         <div className="w-16 h-16 bg-accent rounded-2xl mb-6 flex items-center justify-center text-white font-bold text-xl ">EA</div>
         <h3 className="text-2xl font-bold text-accent mb-2">Evrim Aluç</h3>
-        <p className="opacity-70">Backend Architect & Java Developer. Specialized in scalable systems.</p>
+        <p className="opacity-70">Software Engineer & Full-Stack Developer</p>
       </Link>
 
     {/* Tuana Kartı */}
