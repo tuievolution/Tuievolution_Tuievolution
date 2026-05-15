@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       // Backend'e istek at
-      const response = await axios.post("https://tuievolution-backend.onrender.com/api/users/login", formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, formData);
       
       if (response.data) {
         console.log("Giriş Başarılı:", response.data); // Konsolda veriyi gör

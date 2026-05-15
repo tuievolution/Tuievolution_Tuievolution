@@ -21,7 +21,7 @@ const Signup = () => {
 
     try {
       // 3. Kayıt İsteği Atılıyor
-      const response = await axios.post("https://tuievolution-backend.onrender.com/api/users/register", formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`, formData);
       
       if (response.data) {
         // 4. KRİTİK NOKTA: Kayıt başarılıysa gelen veriyi direkt 'login' fonksiyonuna veriyoruz.
