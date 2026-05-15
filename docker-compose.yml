@@ -6,19 +6,19 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Spring Boot bu değişkenleri okuyup veritabanına bağlanacak
-      - DB_URL=jdbc:postgresql://tuievolution-postgres:5432/tuievolution_db
-      - DB_USER=tuievolution
-      - DB_PASS=tui26*Evolution06
+      # Şifreleri .env dosyasından okur
+      - DB_URL=jdbc:postgresql://tuievolution-postgres:5432/${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
     depends_on:
       - tuievolution-postgres
 
   tuievolution-postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: tuievolution
-      POSTGRES_PASSWORD: tui26*Evolution06
-      POSTGRES_DB: tuievolution_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
