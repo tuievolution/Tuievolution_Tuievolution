@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Backend, veritabanına Docker'ın kendi iç ağından bağlanır (Burada 5432 kalmalı!)
+      - PORT=8080  # SPRING BOOT'UN BEKLEDİĞİ PORT DEĞİŞKENİ EKLENDİ
       - DB_URL=jdbc:postgresql://tuievolution-postgres:5432/${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
@@ -15,7 +15,7 @@ services:
       - tuievolution-mongo
 
   tuievolution-postgres:
-    image: postgres:latest
+    image: postgres:16  # LATEST YERİNE EN STABİL SÜRÜM OLAN 16'YA SABİTLENDİ
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
@@ -23,13 +23,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432" # KRİTİK NOKTA: Dışarıya 5433 portunu açtık, çakışmayı önledik.
-
-  tuievolution-mongo:
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+      - "5433:5432"
 
 volumes:
   postgres_data:
