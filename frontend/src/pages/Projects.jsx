@@ -13,7 +13,12 @@ export const Projects = () => {
   const getProjectSlug = (title) => title ? title.trim().replace(/\s+/g, '_') : '';
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/projects`)
+    // Ngrok uyarı sayfasını atlamak için headers eklendi
+    fetch(`${import.meta.env.VITE_API_URL}/projects`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then(res => res.json())
       .then(data => setProjects(data))
       .catch(err => console.error("Projeler yüklenemedi:", err));
@@ -22,7 +27,7 @@ export const Projects = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
   // Hash Link Yönlendirmesi ve Işık Zamanlayıcısı
   useEffect(() => {
     if (location.hash) {

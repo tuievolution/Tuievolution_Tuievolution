@@ -9,7 +9,7 @@ export const ProjectMarquee = () => {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/projects`, {
       headers: {
-        'ngrok-skip-browser-warning': 'true' // Ngrok onay ekranını atla
+        'ngrok-skip-browser-warning': 'true'
       }
     })
       .then((res) => {
@@ -17,17 +17,14 @@ export const ProjectMarquee = () => {
         return res.json();
       })
       .then((data) => {
-        // Gelen verinin dizi olduğundan emin oluyoruz (500 hatasında dizi gelmez)
         if (Array.isArray(data)) {
           setProjects(data);
         } else {
-          console.error("Beklenen veri formatı (dizi) gelmedi:", data);
           setProjects([]);
         }
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Projeler çekilirken hata oluştu:", err);
         setError(err.message);
         setLoading(false);
       });
