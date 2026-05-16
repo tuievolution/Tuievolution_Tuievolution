@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext'; // 1. AuthContext EKLENDİ
+import { useAuth } from '../context/AuthContext'; 
 import { Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 
 const Signup = () => {
@@ -9,7 +9,6 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   
-  // 2. Context'ten login fonksiyonunu alıyoruz
   const { login } = useAuth(); 
   const navigate = useNavigate();
 
@@ -19,21 +18,27 @@ const Signup = () => {
     e.preventDefault();
     setError('');
 
+    // --- 🚨 TEST LOGLARI (F12 Console Ekranında Görünecek) ---
+    console.log("====================================");
+    console.log("🚀 API İSTEĞİ BAŞLIYOR...");
+    console.log("🌍 Vercel'in Gittiği Hedef Adres:", import.meta.env.VITE_API_URL);
+    console.log("📦 Gönderilen Kullanıcı Verisi:", formData.email);
+    console.log("====================================");
+
     try {
-      // 3. Kayıt İsteği Atılıyor
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`, formData);
       
       if (response.data) {
-        // 4. KRİTİK NOKTA: Kayıt başarılıysa gelen veriyi direkt 'login' fonksiyonuna veriyoruz.
-        // Bu sayede kullanıcıyı hem Context'e hem de LocalStorage'a yazıyoruz.
+        console.log("✅ BAŞARILI! Sunucudan (Backend) Gelen Cevap:", response.data);
         login(response.data);
-        
-        // 5. Hiç bekletmeden Profil sayfasına atıyoruz
         navigate("/profile");
       }
 
     } catch (err) {
-      console.error("Kayıt Hatası:", err);
+      console.error("❌ KAYIT HATASI! Detaylar:", err);
+      // Backend'den detaylı hata mesajı geldiyse onu, gelmediyse tarayıcının hatasını yazdır
+      console.log("Hata Mesajı:", err.message);
+      
       const errorMsg = err.response?.data?.message || "Kayıt başarısız. Lütfen tekrar deneyin.";
       setError(errorMsg);
     }
@@ -56,44 +61,41 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* İsim Alanı */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider opacity-70" style={{ color: 'var(--text-primary)' }}>Full Name</label>
             <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50" size={20} />
                 <input 
                   type="text" name="name" value={formData.name} onChange={handleChange} required 
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all text-black"
                   placeholder="Evrim Aluç"
                 />
             </div>
           </div>
 
-          {/* Email Alanı */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider opacity-70" style={{ color: 'var(--text-primary)' }}>Email Address</label>
             <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50" size={20} />
                 <input 
                   type="email" name="email" value={formData.email} onChange={handleChange} required 
-                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all"
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all text-black"
                   placeholder="test@example.com"
                 />
             </div>
           </div>
 
-          {/* Şifre Alanı */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider opacity-70" style={{ color: 'var(--text-primary)' }}>Password</label>
             <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50" size={20} />
                 <input 
                   type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required 
-                  className="w-full pl-12 pr-12 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all"
+                  className="w-full pl-12 pr-12 py-3 rounded-xl border border-transparent focus:border-accent outline-none bg-white/50 focus:bg-white transition-all text-black"
                   placeholder="123456"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100">
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={20} className="text-black"/> : <Eye size={20} className="text-black"/>}
                 </button>
             </div>
           </div>
