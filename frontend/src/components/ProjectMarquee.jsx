@@ -7,8 +7,11 @@ export const ProjectMarquee = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Render üzerindeki backend URL'niz
-    fetch(`${import.meta.env.VITE_API_URL}/projects`)
+    fetch(`${import.meta.env.VITE_API_URL}/projects`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true' // Ngrok onay ekranını atla
+      }
+    })
       .then((res) => {
         if (!res.ok) throw new Error(`Sunucu Hatası: ${res.status}`);
         return res.json();
