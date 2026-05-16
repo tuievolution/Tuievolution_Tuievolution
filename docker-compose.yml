@@ -6,13 +6,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # Şifreleri .env dosyasından okur
-      - IS_RENDER=false
+      # Backend, veritabanına Docker'ın kendi iç ağından bağlanır (Burada 5432 kalmalı!)
       - DB_URL=jdbc:postgresql://tuievolution-postgres:5432/${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASS}
     depends_on:
       - tuievolution-postgres
+      - tuievolution-mongo
 
   tuievolution-postgres:
     image: postgres:latest
@@ -23,7 +23,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432" # KRİTİK NOKTA: Dışarıya 5433 portunu açtık, çakışmayı önledik.
+
+  tuievolution-mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
 
 volumes:
   postgres_data:
