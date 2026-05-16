@@ -68,4 +68,20 @@ public class AuthController {
         System.out.println("❌ HATA: E-posta veya şifre hatalı.");
         return ResponseEntity.status(401).body(Map.of("message", "E-posta veya şifre hatalı!"));
     }
+    // --- KULLANICI BİLGİLERİNİ ID İLE GETİRME (PROFİL SAYFASI İÇİN) ---
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        // 1. Veritabanından o ID'ye sahip kullanıcıyı ara
+        Optional<User> user = userRepository.findById(id);
+
+        // 2. Eğer kullanıcı bulunduysa
+        if (user.isPresent()) {
+            // Şifreyi frontend'e geri göndermek güvenlik açığıdır, onu siliyoruz
+            user.get().setPassword(null); 
+            return ResponseEntity.ok(user.get());
+        }
+        
+        // 3. Kullanıcı yoksa 404 döndür
+        return ResponseEntity.status(404).body(Map.of("message", "Kullanıcı bulunamadı!"));
+    }
 }
