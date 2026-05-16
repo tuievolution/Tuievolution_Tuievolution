@@ -5,7 +5,7 @@ TuiEvolution is a modern, full-stack web application built to showcase innovativ
 ## 🚀 Tech Stack
 * **Frontend:** React (Vite), Tailwind CSS, Framer Motion, Lucide React
 * **Backend:** Java Spring Boot, Hibernate / JPA
-* **Database:** PostgreSQL (hosted on Neon)
+* **Database:** PostgreSQL
 * **Deployment:** Vercel (Frontend), Render (Backend)
 
 ## ✨ Key Features & Development Highlights
