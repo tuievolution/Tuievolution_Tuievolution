@@ -13,7 +13,7 @@ export const Projects = () => {
   const getProjectSlug = (title) => title ? title.trim().replace(/\s+/g, '_') : '';
 
   useEffect(() => {
-    fetch('https://tuievolution-backend.onrender.com/api/projects')
+    fetch(`${import.meta.env.VITE_API_URL}/projects`)
       .then(res => res.json())
       .then(data => setProjects(data))
       .catch(err => console.error("Projeler yüklenemedi:", err));

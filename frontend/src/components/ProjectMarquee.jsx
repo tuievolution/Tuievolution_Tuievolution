@@ -8,7 +8,7 @@ export const ProjectMarquee = () => {
 
   useEffect(() => {
     // Render üzerindeki backend URL'niz
-    fetch('https://tuievolution-backend.onrender.com/api/projects')
+    fetch(`${import.meta.env.VITE_API_URL}/projects`)
       .then((res) => {
         if (!res.ok) throw new Error(`Sunucu Hatası: ${res.status}`);
         return res.json();
