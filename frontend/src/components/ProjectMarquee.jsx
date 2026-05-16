@@ -36,8 +36,8 @@ export const ProjectMarquee = () => {
       <div>Projeler Yükleniyor...</div>
       <div>Database bağlanıldığı için birkaç dakika alabilir</div>
     </div>
-
   );
+
   if (error) return <div className="text-center py-10 text-red-500">Verilere erişilemiyor. (CORS veya Veritabanı Hatası)</div>;
   if (!Array.isArray(projects) || projects.length === 0) return null;
 

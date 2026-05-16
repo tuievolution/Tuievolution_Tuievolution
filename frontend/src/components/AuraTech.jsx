@@ -9,7 +9,6 @@ const AuraTech = () => {
   const [projects, setProjects] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   
-  // Başlangıç mesajı
   const initialMessages = [
     { 
       id: 1, 
@@ -24,26 +23,26 @@ const AuraTech = () => {
   ];
 
   const [messages, setMessages] = useState(initialMessages);
-  
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
 
-  // Helper: Başlığı URL uyumlu slug'a çevirir
   const getProjectSlug = (title) => title ? title.trim().replace(/\s+/g, '_') : '';
 
-  // 1. Veritabanından Projeleri Çekme
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/projects`)
+    // KRİTİK EKLENTİ: Axios isteğine Ngrok bypass şifresi eklendi
+    axios.get(`${import.meta.env.VITE_API_URL}/projects`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    })
       .then(res => setProjects(res.data))
       .catch(err => console.error("Projeler yüklenemedi:", err));
   }, []);
 
-  // Mesaj geldiğinde otomatik aşağı kaydır
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
-  // SIFIRLAMA VE KAPATMA FONKSİYONU
   const closeAndReset = () => {
     setIsOpen(false);
     setTimeout(() => {
@@ -51,13 +50,11 @@ const AuraTech = () => {
     }, 300);
   };
 
-  // Yönlendirme ve Sıfırlama Yardımcısı
   const handleNavigation = (path) => {
     navigate(path);
     closeAndReset();
   };
 
-  // Seçeneklere Tıklama Mantığı
   const handleOptionClick = (option) => {
     const userMessage = { id: Date.now(), sender: 'user', text: option.label };
     setMessages(prev => [...prev, userMessage]);
@@ -67,7 +64,6 @@ const AuraTech = () => {
       let botResponse = { id: Date.now() + 1, sender: 'bot', text: "", options: [] };
 
       switch (option.value) {
-        /* --- PROJELER --- */
         case 'projects':
           botResponse.text = "Şu anda geliştirdiğimiz harika projelerimiz var! Hangisi hakkında detay istersiniz?";
           botResponse.options = projects.map(p => ({
@@ -77,7 +73,6 @@ const AuraTech = () => {
           }));
           break;
 
-        /* --- EKİP (GÜNCELLENEN KISIM) --- */
         case 'team':
           botResponse.text = "TuiEvolution ekibi, kendi alanlarında uzman iki lider geliştiriciden oluşuyor. Kimin hakkında bilgi almak istersiniz?";
           botResponse.options = [
@@ -88,7 +83,6 @@ const AuraTech = () => {
           ];
           break;
 
-        /* --- EVRİM ALUÇ İÇİN DETAY --- */
         case 'team_evrim':
           botResponse.text = "Evrim Aluç; Full Stack mühendistir. Frontend ve Tasarımı sever. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
           botResponse.options = [
@@ -97,7 +91,6 @@ const AuraTech = () => {
           ];
           break;
 
-        /* --- TUANA AKYILDIZ İÇİN DETAY --- */
         case 'team_tuana':
           botResponse.text = "Tuana Akyıldız; Full Stack Mühendis. Kişisel sayfasına gidip yetkinliklerini incelemek ister misiniz?";
           botResponse.options = [
@@ -106,7 +99,6 @@ const AuraTech = () => {
           ];
           break;
 
-        /* --- İLETİŞİM --- */
         case 'contact':
           botResponse.text = "Bize info.tuievolution@gmail.com adresinden ulaşabilirsiniz. İletişim sayfasına yönlendirmemi ister misiniz?";
           botResponse.options = [
@@ -115,24 +107,22 @@ const AuraTech = () => {
           ];
           break;
 
-        /* --- YÖNLENDİRME AKSİYONLARI --- */
         case 'navigate_about':
           handleNavigation('/about');
           return;
 
         case 'navigate_evrim':
-          handleNavigation('/about/evrim'); // Evrim'in sayfasına yönlendirir
+          handleNavigation('/about/evrim'); 
           return;
 
         case 'navigate_tuana':
-          handleNavigation('/about/tuana'); // Tuana'nın sayfasına yönlendirir
+          handleNavigation('/about/tuana'); 
           return;
 
         case 'navigate_contact':
           handleNavigation('/contact');
           return;
         
-        /* --- DİĞER AKSİYONLAR --- */
         case 'menu':
           botResponse.text = "Başka nasıl yardımcı olabilirim?";
           botResponse.options = initialMessages[0].options;
@@ -144,7 +134,6 @@ const AuraTech = () => {
           break;
 
         default:
-          // Proje Detayları ve Yönlendirme
           if (option.value.startsWith('project_detail_')) {
             const project = option.projectData;
             botResponse.text = `${project.title}: ${project.description || "Bu proje modern teknolojilerle geliştirildi."} \n\nBu projeye gitmek ister misiniz?`;
@@ -179,7 +168,6 @@ const AuraTech = () => {
             className="mb-4 w-[350px] h-[500px] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-white/20 backdrop-blur-md"
             style={{ backgroundColor: 'var(--bg-secondary)' }}
           >
-            {/* Header */}
             <div 
               className="p-4 flex justify-between items-center border-b border-white/10 text-white dark:text-[#1A0B2E]" 
               style={{ backgroundColor: 'var(--accent)' }}
@@ -204,7 +192,6 @@ const AuraTech = () => {
               </div>
             </div>
 
-            {/* Mesaj Alanı */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
@@ -251,7 +238,6 @@ const AuraTech = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Footer */}
             <div className="p-3 text-center text-[10px] opacity-50 border-t border-white/10" style={{ color: 'var(--text-primary)' }}>
               Powered by TuiEvolution AI
             </div>
@@ -259,7 +245,6 @@ const AuraTech = () => {
         )}
       </AnimatePresence>
 
-      {/* Ana Buton */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
